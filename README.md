@@ -18,7 +18,7 @@
 -  lsp-zero
 
 ## Keymaps
--  `<leader>` is `space`
+`<leader>` is `space`
 -  `<leader>fs` find files depending on current directory
 -  `<leader>fp` find git files
 -  `<leader>fz` search for keyword within files on current directory 
