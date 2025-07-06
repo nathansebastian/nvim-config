@@ -32,6 +32,20 @@ vim.api.nvim_create_autocmd('LspAttach', {
 	end,
 })
 
+-- CCLS
+require'lspconfig'.ccls.setup({
+    default_config ={
+        cmd = {'ccls'},
+        filetypes ={'c','cpp','objc','cuda'},
+        root_dir = function(fname)
+            return util.root_pattern('compile_commands.json', '.ccls')(fname)
+                or vim.fs.dirname(vim.fs.find('.git', {path = fname, upward = true})[1])
+        end,
+        offset_encoding = 'utf-32',
+        single_file_support = false,
+    },
+})
+
 cmp.setup({
 	sources = {
 		{name = 'nvim_lsp'},
@@ -46,6 +60,19 @@ cmp.setup({
 	}),
 })
 
+-- Ruby
+
+require'lspconfig'.ruby_lsp.setup({
+    default_config = {
+        cmd = {'ruby_lsp'},
+        filetypes = { 'ruby', 'eruby' },
+        root_dir = util.root_pattern('Gemfile', '.git'),
+        init_options = {
+            formatter = 'auto',
+        },
+        single_file_support = true,
+    },
+})
 
 -- GDscript
 require'lspconfig'.gdscript.setup({
@@ -143,8 +170,57 @@ require'lspconfig'.csharp_ls.setup({
 	},
 })
 
--- 
+-- HTML 
+require'lspconfig'.html.setup({
+    default_config = {
+        cmd = { 'vscode-html-language-server', '--stdio' },
+        filetypes = { 'html', 'templ' },
+        root_dir = util.root_pattern('package.json', '.git'),
+        single_file_support = true,
+        settings = {},
+        init_options = {
+            provideFormatter = true,
+            embeddedLanguages = { css = true, javascript = true },
+            configurationSection = { 'html', 'css', 'javascript' },
+        }
+    },
+})
+-- PYTHON
+require'lspconfig'.pylsp.setup({
+    default_config = {
+        cmd = { 'pylsp' },
+        filetypes = { 'python' },
+        init_options = { provideFormatter = true }, -- needed to enable formatting capabilities
+        root_dir = util.root_pattern("pyproject.toml", "setup.py", "setup.cfg", "requirements.txt", "Pipfile", ".git" ),
+        single_file_support = true,
+        settings = {
+            pylsp = {
+                plugins = {
+                    pycodestyle = {
+                        ignore = {'W391'},
+                        maxLineLength = 100
+                    },
+                },
+            },
+        },
+    },
+})
 
+-- CSS
+require'lspconfig'.cssls.setup({
+    default_config = {
+        cmd = { 'vscode-css-language-server', '--stdio' },
+        filetypes = { 'css', 'scss', 'less' },
+        init_options = { provideFormatter = true }, -- needed to enable formatting capabilities
+        root_dir = util.root_pattern('package.json', '.git'),
+        single_file_support = true,
+        settings = {
+            css = { validate = true },
+            scss = { validate = true },
+            less = { validate = true },
+        },
+    },
+})
 -- Lua
 require'lspconfig'.lua_ls.setup({
     default_config = {

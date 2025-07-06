@@ -6,11 +6,12 @@ vim.keymap.set({"n","v"},"l","<left>")
 vim.keymap.set({"n","v"},"h","<Nop>")
 vim.keymap.set("i", "<RightMouse>", '<C-o>:normal "+gp<CR>', { desc = "Use right mouse to paste clipboard + in insert mode"})
 
-vim.keymap.set("n", "<leader>q",":q!<cr>")
+--vim.keymap.set("n", "<leader>q",":q!<cr>")
 
 -- buffers
 vim.keymap.set("n", "<C-x>", ":bd<cr>")
 vim.keymap.set("n", "<C-n>", ":bn<cr>")
+vim.keymap.set("n", "<C-b>", ":bp<cr>")
 
 -- yank to clipboard
 vim.keymap.set({"n", "v"}, "y", [["+y]])
